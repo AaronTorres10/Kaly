@@ -1,9 +1,11 @@
-# Expo HAS CHANGED 
-Read the exact versionaed docs at http://docs.expo.dev/versions/v57.0.0/ before writing any code.
+# Expo HAS CHANGED
+
+Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before writing any code.
 
 ## Reglas del proyecto
+
 - Usamos Expo con Expo Router para la aplicación móvil.
-- Usamos `StyleSheet` de React Native para aplicar los estilos; no añadimos estilos inline, salvo casos puntuales y justificados.
+- Usamos `StyleSheet` de React Native para los estilos; no añadimos estilos inline salvo casos puntuales y justificados.
 - Usamos Supabase como backend.
 - Las rutas y pantallas de Expo Router van en `app/`.
 - Los componentes reutilizables van en `components/`.
