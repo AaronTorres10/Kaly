@@ -1,4 +1,5 @@
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const stays = [
   { title: 'Casa del Lago', location: 'Valle de Bravo, Mexico', price: '$1,850', color: '#B8D8D8', tag: 'Escapada' },
