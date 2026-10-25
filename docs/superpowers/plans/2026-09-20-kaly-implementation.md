@@ -1,14 +1,14 @@
-# Hospedajes Implementation Plan
+# Kaly Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Convertir el starter de Expo Router en el MVP móvil de Hospedajes para descubrir alojamientos, reservar, pagar y administrarlos como anfitrión.
+**Goal:** Convertir el starter de Expo Router en el MVP móvil de Kaly para descubrir alojamientos, reservar, pagar y administrarlos como anfitrión.
 
 **Architecture:** Expo Router mantiene las cuatro pestañas y las pantallas anidadas. Supabase proporciona Auth, PostgreSQL con RLS, Storage y dos Edge Functions de Stripe; las migraciones y funciones viven versionadas en el repositorio. La app nunca decide el importe final ni marca una reserva como pagada: PostgreSQL controla la concurrencia y el webhook confirma el pago.
 
 **Tech Stack:** Expo SDK 57, React Native 0.86, Expo Router, TypeScript, Supabase Auth/PostgreSQL/Storage/Edge Functions, Stripe PaymentSheet, Vitest para lógica pura y Supabase CLI para migraciones y políticas.
 
-**Spec:** `docs/superpowers/specs/2026-09-20-hospedajes-design.md`
+**Spec:** `docs/superpowers/specs/2026-09-20-kaly-design.md`
 
 ## Global Constraints
 
@@ -20,7 +20,7 @@
 - El cliente no podrá marcar una reserva como pagada y el webhook será idempotente ante reintentos.
 - Todas las áreas contemplarán carga, errores de red, pago rechazado, reserva pendiente y estados vacíos para búsquedas sin resultados y usuarios sin reservas.
 - La interfaz usará una paleta de colores propia; no se usarán logos, marcas ni colores distintivos de ningún sitio real.
-- El nombre de producto será **Hospedajes** en texto plano.
+- El nombre de producto será **Kaly** en texto plano.
 - Las fotos tendrán licencia compatible y procederán de Unsplash o Pexels; nunca se usarán imágenes de listados reales.
 - Cualquier referencia visual servirá solo como guía de estructura y disposición; se usarán imágenes propias y una paleta distinta a la de la referencia.
 - Antes de tocar APIs de Expo se consultará la documentación versionada de Expo SDK 57: `https://docs.expo.dev/versions/v57.0.0/`.
@@ -84,7 +84,7 @@
 - Modify: `app/(auth)/_layout.tsx`, `app/(tabs)/perfil.tsx`, `app.json`
 
 **Interfaces:**
-- `signInWithGoogle(): Promise<AuthResult>` usando `expo-auth-session`/`expo-web-browser` y el redirect `hospedajes://auth/callback`.
+- `signInWithGoogle(): Promise<AuthResult>` usando `expo-auth-session`/`expo-web-browser` y el redirect `kaly://auth/callback`.
 
 - [ ] Configurar el callback nativo y web según Expo SDK 57 y documentar las client IDs fuera del repositorio.
 - [ ] Probar cancelación, callback sin código, error del proveedor y callback válido sin exponer el token en logs.
@@ -359,7 +359,7 @@
 - Create: `docs/superpowers/release-checklist.md`
 
 **Interfaces:**
-- Build de desarrollo y producción reproducible con Expo Application Services; esquema `hospedajes` y nombre visible `Hospedajes`.
+- Build de desarrollo y producción reproducible con Expo Application Services; esquema `kaly` y nombre visible `Kaly`.
 
 - [ ] Generar icono, splash y adaptive icon propios, sin logos, marcas ni colores distintivos de ningún sitio real.
 - [ ] Configurar identificadores Android/iOS, permisos mínimos, variables de entorno de build y perfiles `development`/`preview`/`production`.

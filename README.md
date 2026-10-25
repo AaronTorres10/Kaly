@@ -1,4 +1,4 @@
-# Hospedajes
+# Kaly
 
-Hospedajes es una aplicación móvil para buscar y reservar
+Kaly es una aplicación móvil para buscar y reservar
 alojamientos. Las reservas se pagan en línea.
