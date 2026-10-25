@@ -37,6 +37,12 @@
 - `tests/`: pruebas Vitest de cálculos, filtros, estados e idempotencia simulada.
 - `assets/`: iconos, fuentes e imágenes de muestra con su fuente/licencia documentada.
 
+**Convención de rutas:** `app/(tabs)/explore.tsx` será la ruta canónica de
+Explorar; `app/(tabs)/reservas.tsx`, `app/(tabs)/anfitrion.tsx` y
+`app/(tabs)/profile.tsx` serán las otras tres pestañas. `index.tsx` y
+`saved.tsx` se retirarán o redirigirán durante la Task 6 para no mantener dos
+rutas con la misma función.
+
 ## Review Focus
 
 - Usuario sin sesión que intenta reservar o abrir datos privados: debe ver autenticación, no un error de permisos.
@@ -57,6 +63,7 @@
 - Produce `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, `EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY` y `STRIPE_SECRET_KEY`; las dos últimas solo vivirán en secretos de Supabase, nunca en el bundle.
 
 - [ ] Instalar las dependencias compatibles con Expo SDK 57, Supabase, Stripe y Vitest, consultando primero la documentación de `https://docs.expo.dev/versions/v57.0.0/`.
+- [ ] Actualizar el starter actual de Expo SDK 54/React Native 0.81 a Expo SDK 57/React Native 0.86 y añadir los scripts `test` y `test:integration` para Vitest y Supabase local.
 - [ ] Crear `.env.example` con nombres vacíos, validar variables públicas en `lib/env.ts` y rechazar en arranque una configuración incompleta sin imprimir secretos.
 - [ ] Inicializar `supabase/`, documentar login de CLI, proyecto remoto y Stripe en `README.md`; añadir `.env` y claves privadas al `.gitignore`.
 - [ ] Ejecutar `npm run typecheck` y una prueba de configuración que confirme que una clave privada no se exporta a la app.
@@ -65,7 +72,7 @@
 
 **Files:**
 - Create: `app/(auth)/correo.tsx`, `lib/auth/email.ts`, `tests/auth/email.test.ts`
-- Modify: `app/_layout.tsx`, `app/(tabs)/perfil.tsx`
+- Modify: `app/_layout.tsx`, `app/(tabs)/profile.tsx`
 
 **Interfaces:**
 - `signInWithEmail(email: string, password: string): Promise<AuthResult>`
@@ -81,7 +88,7 @@
 
 **Files:**
 - Create: `app/(auth)/google.tsx`, `lib/auth/google.ts`, `tests/auth/google.test.ts`
-- Modify: `app/(auth)/_layout.tsx`, `app/(tabs)/perfil.tsx`, `app.json`
+- Modify: `app/(auth)/_layout.tsx`, `app/(tabs)/profile.tsx`, `app.json`
 
 **Interfaces:**
 - `signInWithGoogle(): Promise<AuthResult>` usando `expo-auth-session`/`expo-web-browser` y el redirect `kaly://auth/callback`.
@@ -94,7 +101,7 @@
 ### Task 4: Base de datos y seguridad RLS
 
 **Files:**
-- Create: `supabase/migrations/202609200001_schema.sql`, `supabase/migrations/202609200002_rls.sql`, `types/database.ts`, `lib/supabase.ts`, `tests/db/rls.test.ts`
+- Create: `supabase/migrations/202610240001_schema.sql`, `supabase/migrations/202610240002_rls.sql`, `types/database.ts`, `lib/supabase.ts`, `tests/db/rls.test.ts`
 
 **Interfaces:**
 - Tablas `profiles`, `listings`, `listing_images`, `listing_availability`, `reservations`.
@@ -120,17 +127,19 @@
 - [ ] Hacer que `supabase db reset` cargue el seed sin depender de datos insertados manualmente en el dashboard.
 - [ ] Probar conteos, URLs documentadas y ausencia de logos, marcas o colores distintivos de sitios reales con `npm test -- tests/data/seed.test.ts`.
 
-### Task 6: Pestaña y listado de propiedades
+### Task 6: Pestañas y listado de propiedades
 
 **Files:**
-- Modify: `app/(tabs)/_layout.tsx`, `app/(tabs)/index.tsx`
-- Create: `app/(tabs)/anfitrion.tsx`, `components/listings/ListingCard.tsx`, `lib/listings/listPublished.ts`, `tests/listings/listPublished.test.ts`
+- Modify: `app/(tabs)/_layout.tsx`, `app/(tabs)/explore.tsx`, `app/(tabs)/profile.tsx`
+- Create: `app/(tabs)/reservas.tsx`, `app/(tabs)/anfitrion.tsx`, `components/listings/ListingCard.tsx`, `lib/listings/listPublished.ts`, `tests/listings/listPublished.test.ts`
+- Remove or redirect: `app/(tabs)/index.tsx`, `app/(tabs)/saved.tsx`
 
 **Interfaces:**
 - `listPublishedListings(params: ListingQuery): Promise<ListingSummary[]>`
 - `ListingSummary = { id, title, location, pricePerNight, capacity, coverImageUrl }`.
 
-- [ ] Actualizar las cuatro pestañas `Explorar`, `Reservas`, `Anfitrión` y `Perfil` sin logos de marcas y con la paleta propia definida en `constants/Colors.ts`.
+- [ ] Actualizar las cuatro pestañas `Explorar`, `Reservas`, `Anfitrión` y `Perfil` usando respectivamente `explore.tsx`, `reservas.tsx`, `anfitrion.tsx` y `profile.tsx`, sin logos de marcas y con la paleta propia definida en `constants/Colors.ts`.
+- [ ] Retirar o redirigir `index.tsx` y `saved.tsx` para que no queden rutas duplicadas ni una pestaña “Guardados” fuera del alcance.
 - [ ] Probar que la consulta solo devuelve `is_published = true`, ordena de forma estable y representa una tarjeta sin imagen.
 - [ ] Implementar la consulta y el listado con estados de carga, error, vacío y reintento; mostrar precio y capacidad sin asumir una foto.
 - [ ] Verificar la navegación desde una tarjeta al detalle y ejecutar `npm test -- tests/listings/listPublished.test.ts`.
@@ -139,7 +148,7 @@
 
 **Files:**
 - Create: `components/search/SearchBar.tsx`, `components/search/FiltersSheet.tsx`, `lib/listings/searchListings.ts`, `tests/listings/searchListings.test.ts`
-- Modify: `app/(tabs)/index.tsx`
+- Modify: `app/(tabs)/explore.tsx`
 
 **Interfaces:**
 - `searchListings(input: SearchInput): Promise<ListingSummary[]>`
@@ -237,7 +246,7 @@
 
 **Files:**
 - Create: `components/host/ListingPhotoManager.tsx`, `lib/host/uploadListingImage.ts`, `tests/host/uploadListingImage.test.ts`
-- Modify: `app/host/listings/[id]/edit.tsx`, `supabase/migrations/202609200003_storage.sql`
+- Modify: `app/host/listings/[id]/edit.tsx`, `supabase/migrations/202610240003_storage.sql`
 
 **Interfaces:**
 - `uploadListingImage(listingId: string, asset: ImageAsset): Promise<ListingImage>`; guarda en Storage y registra orden, URL y licencia.
@@ -308,7 +317,7 @@
 
 **Files:**
 - Create: `components/feedback/LoadingState.tsx`, `components/feedback/ErrorState.tsx`, `components/feedback/EmptyState.tsx`, `tests/feedback/states.test.tsx`
-- Modify: `app/(tabs)/index.tsx`, `app/(tabs)/reservas.tsx`, `app/(tabs)/perfil.tsx`, `app/(tabs)/anfitrion.tsx`, `app/listings/[id].tsx`, `app/host/reservations.tsx`, `app/reservations/[id]/pay.tsx`
+- Modify: `app/(tabs)/explore.tsx`, `app/(tabs)/reservas.tsx`, `app/(tabs)/profile.tsx`, `app/(tabs)/anfitrion.tsx`, `app/listings/[id].tsx`, `app/host/reservations.tsx`, `app/reservations/[id]/pay.tsx`
 
 **Interfaces:**
 - `LoadingState({ label?: string }): JSX.Element`
@@ -341,7 +350,7 @@
 
 **Files:**
 - Create: `components/layout/Screen.tsx`, `components/layout/RefreshableScrollView.tsx`, `tests/layout/mobile-polish.test.tsx`
-- Modify: `app/_layout.tsx`, `app/(tabs)/_layout.tsx`, `app/(tabs)/index.tsx`, `app/(tabs)/reservas.tsx`, `app/(tabs)/perfil.tsx`, `app/(tabs)/anfitrion.tsx`, `app/host/listings/new.tsx`, `app/host/listings/[id]/edit.tsx`, `app/listings/[id].tsx`, `app/reservations/[id]/pay.tsx`
+- Modify: `app/_layout.tsx`, `app/(tabs)/_layout.tsx`, `app/(tabs)/explore.tsx`, `app/(tabs)/reservas.tsx`, `app/(tabs)/profile.tsx`, `app/(tabs)/anfitrion.tsx`, `app/host/listings/new.tsx`, `app/host/listings/[id]/edit.tsx`, `app/listings/[id].tsx`, `app/reservations/[id]/pay.tsx`
 
 **Interfaces:**
 - `Screen({ children, scrollable?: boolean, refreshing?: boolean, onRefresh?: () => Promise<void> }): JSX.Element` añade safe areas y comportamiento común de teclado.
