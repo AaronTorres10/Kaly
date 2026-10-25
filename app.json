@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Hospedajes",
-    "slug": "hospedajes",
+    "name": "Kaly",
+    "slug": "kaly",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "hospedajes",
+    "scheme": "kaly",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true

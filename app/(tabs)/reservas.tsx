@@ -8,7 +8,7 @@ export default function ReservationsScreen() {
       <View style={styles.emptyCard}>
         <Text style={styles.icon}>◷</Text>
         <Text style={styles.cardTitle}>Todavia no tienes reservas</Text>
-        <Text style={styles.description}>Los hospedajes que reserves apareceran aqui para que tengas todo tu viaje a la mano.</Text>
+        <Text style={styles.description}>Los alojamientos que reserves apareceran aqui para que tengas todo tu viaje a la mano.</Text>
       </View>
     </View>
   );
