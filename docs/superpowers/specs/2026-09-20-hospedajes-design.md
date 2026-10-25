@@ -1,4 +1,4 @@
-# Kaly: especificacion de producto y arquitectura
+# Hospedajes: especificacion de producto y arquitectura
 
 ## Estado
 
@@ -7,7 +7,7 @@ Diseño aprobado por el usuario. La implementación queda pendiente de un plan.
 ## Objetivo
 
 Construir una aplicación móvil tipo marketplace de alojamientos llamada
-Kaly. Una misma cuenta puede actuar como huésped y anfitrión. El MVP
+Hospedajes. Una misma cuenta puede actuar como huésped y anfitrión. El MVP
 permitirá descubrir alojamientos, consultar su detalle, reservar y pagar en
 línea, además de publicar y administrar alojamientos propios.
 
@@ -82,7 +82,7 @@ para usuarios sin reservas.
 
 - La interfaz usará una paleta de colores propia.
 - No se usarán logos, marcas ni colores distintivos de ningún sitio real.
-- El nombre de producto será **Kaly** en texto plano.
+- El nombre de producto será **Hospedajes** en texto plano.
 - Las fotos tendrán licencia compatible y procederán de Unsplash o Pexels;
   nunca se usarán imágenes de listados reales.
 - Cualquier referencia visual servirá solo como guía de estructura y
