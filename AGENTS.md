@@ -18,3 +18,4 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 - No usamos logos ni colores asociados con marcas conocidas.
 - Las fotografías deben tener una licencia que permita su uso.
 - Las imágenes de referencia se usan únicamente como guía de estructura, nunca se copian como contenido final.
+- Cada prompt pide una sola tarea, con su forma de comprobarla; nunca varias tareas en un mismo turno
