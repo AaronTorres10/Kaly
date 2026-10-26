@@ -4,18 +4,24 @@ type PublicEnv = {
   stripePublishableKey: string | undefined;
 };
 
-function requiredPublicEnv(name: 'EXPO_PUBLIC_SUPABASE_URL' | 'EXPO_PUBLIC_SUPABASE_ANON_KEY') {
-  const value = process.env[name]?.trim();
+function requiredPublicEnv(name: string, value: string | undefined) {
+  const normalizedValue = value?.trim();
 
-  if (!value) {
+  if (!normalizedValue) {
     throw new Error(`Falta la variable de entorno pública ${name}`);
   }
 
-  return value;
+  return normalizedValue;
 }
 
 export const publicEnv: PublicEnv = {
-  supabaseUrl: requiredPublicEnv('EXPO_PUBLIC_SUPABASE_URL'),
-  supabaseAnonKey: requiredPublicEnv('EXPO_PUBLIC_SUPABASE_ANON_KEY'),
+  supabaseUrl: requiredPublicEnv(
+    'EXPO_PUBLIC_SUPABASE_URL',
+    process.env.EXPO_PUBLIC_SUPABASE_URL,
+  ),
+  supabaseAnonKey: requiredPublicEnv(
+    'EXPO_PUBLIC_SUPABASE_ANON_KEY',
+    process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
+  ),
   stripePublishableKey: process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() || undefined,
 };
