@@ -1,46 +1,32 @@
 # Kaly
 
-Kaly es una aplicación móvil para buscar y reservar alojamientos.
-Las reservas se pagan en línea.
+Kaly es una aplicación móvil para buscar y reservar
+alojamientos. Las reservas se pagan en línea.
 
 ## Configuración local
 
-Requisitos: Node.js 22.13 o posterior y Expo SDK 57.
+Requiere Node.js 22.13 o superior, compatible con Expo SDK 57.
 
-1. Copia `.env.example` como `.env`.
-2. Completa `EXPO_PUBLIC_SUPABASE_URL` con la URL del proyecto Supabase y
-   `EXPO_PUBLIC_SUPABASE_ANON_KEY` con su clave pública (anon).
-3. La clave `EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY` puede quedar vacía hasta
-   implementar pagos. La aplicación arranca únicamente con las dos variables
-   públicas de Supabase.
-4. No pongas `SUPABASE_SERVICE_ROLE_KEY` ni `STRIPE_SECRET_KEY` en `.env` ni
-   en el bundle de Expo. Esas claves se configuran únicamente como secretos de
-   las Edge Functions de Supabase.
+1. Copia `.env.example` a `.env`.
+2. Completa `EXPO_PUBLIC_SUPABASE_URL` y `EXPO_PUBLIC_SUPABASE_ANON_KEY` con
+   los valores públicos del proyecto de Supabase.
+3. `EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY` puede quedar vacío hasta implementar
+   la sección de pagos. La app no arranca si falta alguna variable pública de
+   Supabase.
+4. Instala la CLI de Supabase y autentícate con `supabase login`.
+5. Vincula el proyecto remoto con `supabase link --project-ref <project-ref>`.
+6. Las claves `SUPABASE_SERVICE_ROLE_KEY` y `STRIPE_SECRET_KEY` se configuran
+   únicamente como secretos de las Edge Functions, nunca en `.env` de la app.
 
-Inicia la aplicación con:
+Para preparar Stripe cuando llegue la sección de pagos, instala su CLI,
+autentícate con `stripe login` y configura sus secretos en Supabase con
+`supabase secrets set SUPABASE_SERVICE_ROLE_KEY=... STRIPE_SECRET_KEY=...`.
+No se necesita una clave de Stripe para arrancar esta versión.
 
-```sh
+Para ejecutar las comprobaciones:
+
+```bash
 npm install
-npm start
+npm run typecheck
+npm test
 ```
-
-## Supabase y Stripe
-
-Instala e inicia sesión en Supabase CLI, crea o vincula el proyecto remoto y
-guarda su referencia en el entorno local:
-
-```sh
-npx supabase login
-npx supabase link --project-ref <PROJECT_REF>
-npx supabase db push
-```
-
-Configura los secretos privados solo en Supabase:
-
-```sh
-npx supabase secrets set SUPABASE_SERVICE_ROLE_KEY=<service-role-key> STRIPE_SECRET_KEY=<stripe-secret-key>
-```
-
-La clave publicable de Stripe, cuando llegue la sección de pagos, se añadirá
-como `EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY` en el `.env` local. Nunca se registran
-claves ni tokens en logs o en el repositorio.
