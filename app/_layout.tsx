@@ -1,11 +1,13 @@
 import { useFonts } from 'expo-font';
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, Redirect, Stack, ThemeProvider, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import '@/lib/env';
+import { AuthProvider, useAuth } from '@/lib/auth/email';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -40,18 +42,37 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <AuthProvider>
+      <RootLayoutNav />
+    </AuthProvider>
+  );
 }
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const { loading, session } = useAuth();
+  const segments = useSegments();
+
+  if (loading) {
+    return <View style={styles.loading}><ActivityIndicator color="#214E4A" size="large" /></View>;
+  }
+
+  const inAuth = (segments[0] as string | undefined) === '(auth)';
+  if (!session && !inAuth) return <Redirect href={'/correo' as never} />;
+  if (session && inAuth) return <Redirect href="/" />;
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  loading: { alignItems: 'center', backgroundColor: '#FCFBF8', flex: 1, justifyContent: 'center' },
+});
