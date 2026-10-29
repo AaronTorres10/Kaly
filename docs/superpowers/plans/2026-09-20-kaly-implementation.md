@@ -72,10 +72,10 @@
 - `signUpWithEmail(email: string, password: string): Promise<AuthResult>`
 - `signOut(): Promise<void>`
 
-- [ ] Probar validaciones de correo, contraseña corta, credenciales inválidas y sesión iniciada con el contrato de `AuthResult`.
-- [ ] Implementar acceso y registro con `supabase.auth.signInWithPassword` y `signUp`, traduciendo errores a mensajes de interfaz en español.
-- [ ] Conectar la sesión al layout raíz y mostrar carga, error y cierre de sesión desde Perfil.
-- [ ] Verificar con `npm test -- tests/auth/email.test.ts` y navegación manual sin sesión y con sesión.
+- [x] Probar validaciones de correo, contraseña corta, credenciales inválidas y sesión iniciada con el contrato de `AuthResult`.
+- [x] Implementar acceso y registro con `supabase.auth.signInWithPassword` y `signUp`, traduciendo errores a mensajes de interfaz en español.
+- [x] Conectar la sesión al layout raíz y mostrar carga, error y cierre de sesión desde Perfil.
+- [x] Verificar con `npm test -- tests/auth/email.test.ts` y navegación manual sin sesión y con sesión.
 
 ### Task 3: Acceso con Google
 
