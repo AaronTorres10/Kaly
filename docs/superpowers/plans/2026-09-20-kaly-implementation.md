@@ -86,10 +86,10 @@
 **Interfaces:**
 - `signInWithGoogle(): Promise<AuthResult>` usando `expo-auth-session`/`expo-web-browser` y el redirect `kaly://auth/callback`.
 
-- [ ] Configurar el callback nativo y web según Expo SDK 57 y documentar las client IDs fuera del repositorio.
-- [ ] Probar cancelación, callback sin código, error del proveedor y callback válido sin exponer el token en logs.
-- [ ] Implementar OAuth con `signInWithOAuth`, abrir el navegador y persistir la sesión recibida por Supabase.
-- [ ] Verificar Android, iOS y web con una cuenta de prueba y `npm test -- tests/auth/google.test.ts`.
+- [x] Configurar el callback nativo y web según Expo SDK 57 y documentar las client IDs fuera del repositorio.
+- [x] Probar cancelación, callback sin código, error del proveedor y callback válido sin exponer el token en logs.
+- [x] Implementar OAuth con `signInWithOAuth`, abrir el navegador y persistir la sesión recibida por Supabase.
+- [x] Verificar Android, iOS y web con una cuenta de prueba y `npm test -- tests/auth/google.test.ts`.
 
 ### Task 4: Base de datos y seguridad RLS
 

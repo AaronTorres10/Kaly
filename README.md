@@ -30,3 +30,11 @@ npm install
 npm run typecheck
 npm test
 ```
+
+## Acceso con Google
+
+En el panel de Supabase, habilita el proveedor Google y configura sus client
+IDs y secretos directamente en la configuración del proveedor. No guardes
+client IDs, client secrets ni tokens en este repositorio ni en el bundle de la
+app. Añade `kaly://auth/callback` a los redirects permitidos para Android/iOS
+y la URL HTTPS de tu despliegue web con `/auth/callback` para web.

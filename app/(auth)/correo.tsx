@@ -53,10 +53,13 @@ export default function EmailAuthScreen() {
           <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void handleSubmit()} style={styles.button}>
             {submitting ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.buttonText}>{isRegistering ? 'Registrarme' : 'Entrar'}</Text>}
           </Pressable>
-          <Pressable onPress={() => { setError(null); setIsRegistering((value) => !value); }} style={styles.switchButton}>
-            <Text style={styles.switchText}>{isRegistering ? 'Ya tengo una cuenta' : 'Crear una cuenta'}</Text>
-          </Pressable>
-        </View>
+           <Pressable onPress={() => { setError(null); setIsRegistering((value) => !value); }} style={styles.switchButton}>
+             <Text style={styles.switchText}>{isRegistering ? 'Ya tengo una cuenta' : 'Crear una cuenta'}</Text>
+           </Pressable>
+           <Pressable accessibilityRole="button" onPress={() => router.push('/google')} style={styles.googleButton}>
+             <Text style={styles.googleText}>Continuar con Google</Text>
+           </Pressable>
+         </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -76,4 +79,6 @@ const styles = StyleSheet.create({
   buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   switchButton: { alignItems: 'center', padding: 18 },
   switchText: { color: '#D56D51', fontSize: 15, fontWeight: '700' },
+  googleButton: { alignItems: 'center', borderColor: '#B8C8C3', borderRadius: 14, borderWidth: 1, padding: 15 },
+  googleText: { color: '#214E4A', fontSize: 15, fontWeight: '700' },
 });

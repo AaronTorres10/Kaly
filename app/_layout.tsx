@@ -58,7 +58,8 @@ function RootLayoutNav() {
     return <View style={styles.loading}><ActivityIndicator color="#214E4A" size="large" /></View>;
   }
 
-  const inAuth = (segments[0] as string | undefined) === '(auth)';
+  const firstSegment = segments[0] as string | undefined;
+  const inAuth = firstSegment === '(auth)' || firstSegment === 'auth';
   if (!session && !inAuth) return <Redirect href={'/correo' as never} />;
   if (session && inAuth) return <Redirect href="/" />;
 

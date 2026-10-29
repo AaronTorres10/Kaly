@@ -25,10 +25,11 @@ export default function ProfileScreen() {
     <View style={styles.container}>
       <Text style={styles.eyebrow}>TU CUENTA</Text>
       <Text style={styles.title}>Perfil</Text>
-      <View style={styles.profileCard}>
+       <View style={styles.profileCard}>
          <View style={styles.avatar}><Text style={styles.avatarText}>{initials}</Text></View>
          <View><Text style={styles.name}>{displayName}</Text><Text style={styles.email}>{user?.email}</Text></View>
-      </View>
+       </View>
+       {user?.app_metadata?.provider === 'google' ? <Text style={styles.provider}>Cuenta vinculada con Google</Text> : null}
        <View style={styles.menu}><Text style={styles.menuItem}>Mis favoritos <Text style={styles.arrow}>›</Text></Text><Text style={styles.menuItem}>Preferencias <Text style={styles.arrow}>›</Text></Text><Text style={styles.menuItem}>Ayuda y soporte <Text style={styles.arrow}>›</Text></Text></View>
        {authError || error ? <Text accessibilityRole="alert" style={styles.error}>{authError ?? error}</Text> : null}
        <Pressable accessibilityRole="button" onPress={() => void handleSignOut()} style={styles.signOut}><Text style={styles.signOutText}>Cerrar sesión</Text></Pressable>
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
   avatarText: { color: '#214E4A', fontSize: 18, fontWeight: '800' },
   name: { color: '#FFF', fontSize: 17, fontWeight: '800' },
   email: { color: '#B8D8D8', fontSize: 13, marginTop: 5 },
+  provider: { color: '#5D6C68', fontSize: 13, marginTop: 12 },
   menu: { backgroundColor: '#FFF', borderRadius: 18, marginTop: 20, paddingHorizontal: 18 },
   menuItem: { color: '#263A37', fontSize: 15, fontWeight: '600', paddingVertical: 19, borderBottomColor: '#EEF1EF', borderBottomWidth: 1 },
   arrow: { color: '#D56D51', fontSize: 22 },
