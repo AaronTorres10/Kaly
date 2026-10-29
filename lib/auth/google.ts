@@ -1,4 +1,5 @@
 import { makeRedirectUri } from 'expo-auth-session';
+import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
 import { Platform } from 'react-native';
 
@@ -10,6 +11,12 @@ WebBrowser.maybeCompleteAuthSession();
 
 function redirectUri(): string {
   if (Platform.OS === 'web') {
+    return makeRedirectUri({ path: 'auth/callback', scheme: 'kaly' });
+  }
+
+  // Expo Go cannot claim the application's custom scheme. Its generated
+  // exp:// URL is the deep link that returns to the running project.
+  if (Constants.appOwnership === 'expo') {
     return makeRedirectUri({ path: 'auth/callback', scheme: 'kaly' });
   }
 

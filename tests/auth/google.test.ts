@@ -8,6 +8,7 @@ const auth = vi.hoisted(() => ({
 
 const openAuthSessionAsync = vi.hoisted(() => vi.fn());
 const makeRedirectUri = vi.hoisted(() => vi.fn(() => 'kaly://auth/callback'));
+const expoConstants = vi.hoisted(() => ({ appOwnership: null as string | null }));
 
 vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn(() => ({ auth })),
@@ -18,6 +19,7 @@ vi.mock('@react-native-async-storage/async-storage', () => ({
 }));
 
 vi.mock('expo-auth-session', () => ({ makeRedirectUri }));
+vi.mock('expo-constants', () => ({ default: expoConstants }));
 vi.mock('expo-web-browser', () => ({
   maybeCompleteAuthSession: vi.fn(),
   openAuthSessionAsync,
@@ -28,6 +30,7 @@ describe('autenticación con Google', () => {
   beforeEach(() => {
     vi.resetModules();
     vi.clearAllMocks();
+    expoConstants.appOwnership = null;
     process.env.EXPO_PUBLIC_SUPABASE_URL = 'https://example.supabase.co';
     process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = 'public-anon-key';
     auth.signInWithOAuth.mockResolvedValue({
@@ -57,6 +60,17 @@ describe('autenticación con Google', () => {
       provider: 'google',
       options: { redirectTo: 'kaly://auth/callback', skipBrowserRedirect: true },
     });
+  });
+
+  it('usa el deep link exp:// cuando se ejecuta dentro de Expo Go', async () => {
+    expoConstants.appOwnership = 'expo';
+    openAuthSessionAsync.mockResolvedValue({ type: 'cancel' });
+    const signInWithGoogle = await loadSignIn();
+
+    await signInWithGoogle();
+
+    expect(makeRedirectUri).toHaveBeenCalledWith({ path: 'auth/callback', scheme: 'kaly' });
+    expect(makeRedirectUri).not.toHaveBeenCalledWith(expect.objectContaining({ native: 'kaly://auth/callback' }));
   });
 
   it('rechaza un callback sin código ni tokens', async () => {
