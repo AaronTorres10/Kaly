@@ -6,13 +6,20 @@ const auth = vi.hoisted(() => ({
   signOut: vi.fn(),
 }));
 
+const createClient = vi.hoisted(() => vi.fn(() => ({ auth })));
+
 vi.mock('@supabase/supabase-js', () => ({
-  createClient: vi.fn(() => ({ auth })),
+  createClient,
+}));
+
+vi.mock('@react-native-async-storage/async-storage', () => ({
+  default: { getItem: vi.fn(), setItem: vi.fn(), removeItem: vi.fn() },
 }));
 
 let signInWithEmail: typeof import('../../lib/auth/email').signInWithEmail;
 let signOut: typeof import('../../lib/auth/email').signOut;
 let signUpWithEmail: typeof import('../../lib/auth/email').signUpWithEmail;
+let clientOptions: Record<string, any>;
 
 describe('autenticación con correo', () => {
   beforeAll(async () => {
@@ -22,6 +29,7 @@ describe('autenticación con correo', () => {
     signInWithEmail = module.signInWithEmail;
     signOut = module.signOut;
     signUpWithEmail = module.signUpWithEmail;
+    clientOptions = (createClient.mock.calls[0] as unknown[])[2] as Record<string, any>;
   });
 
   beforeEach(() => {
@@ -82,5 +90,16 @@ describe('autenticación con correo', () => {
     auth.signOut.mockResolvedValue({ error: null });
     await expect(signOut()).resolves.toBeUndefined();
     expect(auth.signOut).toHaveBeenCalledOnce();
+  });
+
+  it('crea el cliente con persistencia de sesión en AsyncStorage', async () => {
+    expect(clientOptions).toMatchObject({
+      auth: {
+        autoRefreshToken: true,
+        detectSessionInUrl: false,
+        persistSession: true,
+      },
+    });
+    expect(clientOptions.auth.storage).toBeDefined();
   });
 });

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient, type Session, type User } from '@supabase/supabase-js';
 import { createContext, createElement, useContext, useEffect, useState, type PropsWithChildren } from 'react';
 
@@ -10,7 +11,14 @@ export type AuthResult = {
   error?: string;
 };
 
-export const supabase = createClient(publicEnv.supabaseUrl, publicEnv.supabaseAnonKey);
+export const supabase = createClient(publicEnv.supabaseUrl, publicEnv.supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    detectSessionInUrl: false,
+    persistSession: true,
+    storage: AsyncStorage,
+  },
+});
 
 const MIN_PASSWORD_LENGTH = 8;
 
