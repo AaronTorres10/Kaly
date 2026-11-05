@@ -6,6 +6,12 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "kaly",
+    "extra": {
+      "oauth": {
+        "nativeRedirectUri": "kaly://auth/callback",
+        "webCallbackPath": "/auth/callback"
+      }
+    },
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true

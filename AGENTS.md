@@ -15,7 +15,7 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 - Las migraciones y cualquier cambio de esquema de la base de datos van en `supabase/migrations/` y deben quedar guardados dentro del repositorio.
 - Nunca escribimos contraseñas, tokens ni llaves secretas directamente en el código. Usamos variables de entorno y archivos locales excluidos del repositorio.
 - Cada tarea se cierra probando la aplicación en el emulador.
-- No usamos logos ni colores asociados con marcas conocidas.
+- No usamos logos ni colores asociados con marcas conocidas. Excepción: los botones de acceso con proveedores externos pueden mostrar el logotipo y los colores oficiales del proveedor cuando sus guías de marca lo exijan.
 - Las fotografías deben tener una licencia que permita su uso.
 - Las imágenes de referencia se usan únicamente como guía de estructura, nunca se copian como contenido final.
 - Cada prompt pide una sola tarea, con su forma de comprobarla; nunca varias tareas en un mismo turno
