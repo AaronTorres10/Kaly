@@ -101,11 +101,11 @@
 - Estados de reserva: `pending_payment`, `paid`, `payment_failed`.
 - Cliente público en `lib/supabase.ts`; nunca un cliente con service role dentro de la app.
 
-- [ ] Escribir pruebas de acceso anónimo a alojamientos publicados, aislamiento de perfiles/reservas y permisos del anfitrión.
-- [ ] Crear las cinco tablas con claves, timestamps, dinero en enteros, rangos de fechas y claves foráneas necesarias.
-- [ ] Añadir políticas RLS para lectura pública de publicados, gestión propia de perfil/reservas y gestión del anfitrión sobre sus alojamientos, imágenes, disponibilidad y reservas recibidas.
-- [ ] Añadir la restricción atómica `EXCLUDE USING gist` para impedir rangos de reserva solapados y generar tipos TypeScript desde el esquema.
-- [ ] Ejecutar `supabase db reset` y `npm test -- tests/db/rls.test.ts` contra la base local.
+- [x] Escribir pruebas de acceso anónimo a alojamientos publicados, aislamiento de perfiles/reservas y permisos del anfitrión.
+- [x] Crear las cinco tablas con claves, timestamps, dinero en enteros, rangos de fechas y claves foráneas necesarias.
+- [x] Añadir políticas RLS para lectura pública de publicados, gestión propia de perfil/reservas y gestión del anfitrión sobre sus alojamientos, imágenes, disponibilidad y reservas recibidas.
+- [x] Añadir la restricción atómica `EXCLUDE USING gist` para impedir rangos de reserva solapados y generar tipos TypeScript desde el esquema.
+- [x] Ejecutar `supabase db push --remote --yes` y `npm test -- tests/db/rls.test.ts` contra el proyecto remoto enlazado (no hay Supabase local disponible).
 
 ### Task 5: Datos de ejemplo con imágenes licenciadas
 
