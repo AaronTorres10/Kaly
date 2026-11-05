@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { Path, Svg } from 'react-native-svg';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -40,7 +41,7 @@ export default function EmailAuthScreen() {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.container}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <Text style={styles.eyebrow}>BIENVENIDO A KALY</Text>
+        <Text style={styles.eyebrow}>BIENVENIDO A HOSPEDAJES KALY</Text>
         <Text style={styles.title}>{isRegistering ? 'Crea tu cuenta' : 'Vuelve a descubrir'}</Text>
         <Text style={styles.subtitle}>Accede a tus reservas y encuentra tu próximo alojamiento.</Text>
 
@@ -55,8 +56,14 @@ export default function EmailAuthScreen() {
           </Pressable>
            <Pressable onPress={() => { setError(null); setIsRegistering((value) => !value); }} style={styles.switchButton}>
              <Text style={styles.switchText}>{isRegistering ? 'Ya tengo una cuenta' : 'Crear una cuenta'}</Text>
-           </Pressable>
+            </Pressable>
            <Pressable accessibilityRole="button" onPress={() => router.push('/google')} style={styles.googleButton}>
+             <Svg accessibilityLabel="Google" height={18} viewBox="0 0 48 48" width={18}>
+               <Path fill="#4285F4" d="M47.9 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h13.4c-.6 2.8-2.2 5.2-4.7 6.8v5.6h7.6c4.4-4.1 7.6-10.1 7.6-16.4Z" />
+               <Path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.6c-2.1 1.4-4.8 2.3-7.9 2.3-6.1 0-11.3-4.1-13.2-9.7H3v5.8C6.9 42.1 14.8 48 24 48Z" />
+               <Path fill="#FBBC05" d="M10.8 29.3c-.5-1.4-.8-2.9-.8-4.3s.3-2.9.8-4.3v-5.8H3C1.1 18.4 0 21.1 0 25s1.1 6.6 3 10.1l7.8-5.8Z" />
+               <Path fill="#EA4335" d="M24 9.6c3.4 0 6.4 1.2 8.8 3.5l6.6-6.6C35.6 2.4 30.3 0 24 0 14.8 0 6.9 5.9 3 14.9l7.8 5.8C12.7 13.7 17.9 9.6 24 9.6Z" />
+             </Svg>
              <Text style={styles.googleText}>Continuar con Google</Text>
            </Pressable>
          </View>
@@ -79,6 +86,6 @@ const styles = StyleSheet.create({
   buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   switchButton: { alignItems: 'center', padding: 18 },
   switchText: { color: '#D56D51', fontSize: 15, fontWeight: '700' },
-  googleButton: { alignItems: 'center', borderColor: '#B8C8C3', borderRadius: 14, borderWidth: 1, padding: 15 },
-  googleText: { color: '#214E4A', fontSize: 15, fontWeight: '700' },
+  googleButton: { alignItems: 'center', backgroundColor: '#FFFFFF', borderColor: '#747775', borderRadius: 4, borderWidth: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 8, minHeight: 48, paddingHorizontal: 16 },
+  googleText: { color: '#1F1F1F', fontSize: 14, fontWeight: '500', marginLeft: 12 },
 });
