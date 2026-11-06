@@ -32,7 +32,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-          name="reservas"
+        name="reservas"
         options={{
           title: 'Reservas',
           tabBarIcon: ({ color }) => (
@@ -44,6 +44,19 @@ export default function TabLayout() {
               }}
               tintColor={color}
               size={28}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="anfitrion"
+        options={{
+          title: 'Anfitrión',
+          tabBarIcon: ({ color }) => (
+            <SymbolView
+              name={{ ios: 'house', android: 'home', web: 'home' }}
+              tintColor={color}
+              size={25}
             />
           ),
         }}
