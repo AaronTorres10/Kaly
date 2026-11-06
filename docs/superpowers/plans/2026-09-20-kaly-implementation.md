@@ -115,10 +115,10 @@
 **Interfaces:**
 - El seed crea perfiles, alojamientos publicados, imágenes con `source_url`, `license` y `attribution`, disponibilidad y ninguna reserva real.
 
-- [ ] Elegir únicamente fotos de Unsplash o Pexels con licencia compatible, registrar URL, autoría y atribución en `assets/images/README.md`, y no copiar imágenes de listados reales.
-- [ ] Crear datos reproducibles con UUIDs fijos y precios enteros, cubriendo alojamiento con varias fotos, sin fotos y sin disponibilidad.
-- [ ] Hacer que `supabase db reset` cargue el seed sin depender de datos insertados manualmente en el dashboard.
-- [ ] Probar conteos, URLs documentadas y ausencia de logos, marcas o colores distintivos de sitios reales con `npm test -- tests/data/seed.test.ts`.
+- [x] Elegir únicamente fotos de Unsplash o Pexels con licencia compatible, registrar URL, autoría y atribución en `assets/images/README.md`, y no copiar imágenes de listados reales.
+- [x] Crear datos reproducibles con UUIDs fijos y precios enteros, cubriendo alojamiento con varias fotos, sin fotos y sin disponibilidad.
+- [x] Hacer que `supabase db reset` cargue el seed sin depender de datos insertados manualmente en el dashboard.
+- [x] Probar conteos, URLs documentadas y ausencia de logos, marcas o colores distintivos de sitios reales con `npm test -- tests/data/seed.test.ts`.
 
 ### Task 6: Pestaña y listado de propiedades
 

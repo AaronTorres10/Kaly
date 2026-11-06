@@ -28,6 +28,7 @@
     "react-native-worklets": "0.10.1"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "@types/react": "~19.2.2",
     "supabase": "^3.0.0",
     "typescript": "~6.0.3",
@@ -39,7 +40,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed:example": "node --env-file-if-exists=.env --experimental-strip-types scripts/seed-example-data.ts"
   },
   "private": true
 }
