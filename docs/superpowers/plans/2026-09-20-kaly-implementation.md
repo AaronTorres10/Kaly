@@ -130,10 +130,10 @@
 - `listPublishedListings(params: ListingQuery): Promise<ListingSummary[]>`
 - `ListingSummary = { id, title, location, pricePerNight, capacity, coverImageUrl }`.
 
-- [ ] Actualizar las cuatro pestañas `Explorar`, `Reservas`, `Anfitrión` y `Perfil` sin logos de marcas y con la paleta propia definida en `constants/Colors.ts`.
-- [ ] Probar que la consulta solo devuelve `is_published = true`, ordena de forma estable y representa una tarjeta sin imagen.
-- [ ] Implementar la consulta y el listado con estados de carga, error, vacío y reintento; mostrar precio y capacidad sin asumir una foto.
-- [ ] Verificar la navegación desde una tarjeta al detalle y ejecutar `npm test -- tests/listings/listPublished.test.ts`.
+- [x] Actualizar las cuatro pestañas `Explorar`, `Reservas`, `Anfitrión` y `Perfil` sin logos de marcas y con la paleta propia definida en `constants/Colors.ts`.
+- [x] Probar que la consulta solo devuelve `is_published = true`, ordena de forma estable y representa una tarjeta sin imagen.
+- [x] Implementar la consulta y el listado con estados de carga, error, vacío y reintento; mostrar precio y capacidad sin asumir una foto.
+- [x] Verificar la navegación desde una tarjeta al detalle y ejecutar `npm test -- tests/listings/listPublished.test.ts`.
 
 ### Task 7: Búsqueda con filtros
 
