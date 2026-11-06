@@ -31,6 +31,22 @@ npm run typecheck
 npm test
 ```
 
+### Cargar datos de ejemplo en Supabase Cloud
+
+Configura `DEMO_EMAIL` y `DEMO_PASSWORD` en el entorno local con una cuenta ya
+existente del proyecto remoto. El cargador usa `EXPO_PUBLIC_SUPABASE_ANON_KEY`,
+inicia sesión con esa cuenta y respeta RLS; no requiere ni acepta una service
+role key.
+
+```bash
+npm run seed:example
+```
+
+El seed SQL queda configurado para `supabase db reset` cuando haya Supabase
+local disponible. El cargador remoto crea los mismos tres alojamientos, sus
+imágenes y disponibilidad, pero asocia el anfitrión al usuario demo porque una
+clave pública no puede insertar perfiles de otros usuarios.
+
 ## Acceso con Google
 
 En el panel de Supabase, habilita el proveedor Google y configura sus client

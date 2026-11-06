@@ -2,6 +2,8 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "module": "ESNext",
+    "allowImportingTsExtensions": true,
+    "types": ["node"],
     "strict": true,
     "paths": {
       "@/*": [
