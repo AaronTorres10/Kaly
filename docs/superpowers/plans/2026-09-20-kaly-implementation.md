@@ -145,10 +145,10 @@
 - `searchListings(input: SearchInput): Promise<ListingSummary[]>`
 - `SearchInput = { destination?: string; checkIn?: string; checkOut?: string; guests?: number; minPrice?: number; maxPrice?: number; amenities?: string[] }`.
 
-- [ ] Probar destino parcial, fechas válidas, huéspedes, precio, servicios, combinación de filtros y cero resultados; rechazar fechas invertidas y huéspedes menores que uno.
-- [ ] Implementar el estado controlado de búsqueda y filtros, aplicándolos a Supabase sin convertir una entrada vacía en un filtro accidental.
-- [ ] Mostrar chips/resumen de filtros, limpiar filtros y preservar la consulta al volver del detalle.
-- [ ] Verificar `npm test -- tests/listings/searchListings.test.ts` y el estado vacío de búsqueda desde el teléfono.
+- [x] Probar destino parcial, fechas válidas, huéspedes, precio, servicios, combinación de filtros y cero resultados; rechazar fechas invertidas y huéspedes menores que uno.
+- [x] Implementar el estado controlado de búsqueda y filtros, aplicándolos a Supabase sin convertir una entrada vacía en un filtro accidental.
+- [x] Mostrar chips/resumen de filtros, limpiar filtros y preservar la consulta al volver del detalle.
+- [x] Verificar `npm test -- tests/listings/searchListings.test.ts` y el estado vacío de búsqueda desde el teléfono.
 
 ### Task 8: Pantalla de detalle
 
