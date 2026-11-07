@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Colors from '@/constants/Colors';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { FiltersSheet, type SearchFilters } from '@/components/search/FiltersSheet';
 import { SearchBar } from '@/components/search/SearchBar';
 import { searchListings, type SearchInput } from '@/lib/listings/searchListings';
-import type { ListingSummary } from '@/lib/listings/listPublished';
+import type { ListingSummary } from '@/lib/listings/types';
 import { useRouter } from 'expo-router';
 
 function ExploreStatus({

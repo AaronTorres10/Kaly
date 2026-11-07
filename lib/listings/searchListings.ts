@@ -1,5 +1,7 @@
 import { supabase } from '../supabase';
-import type { ListingSummary } from './listPublished';
+import type { ListingSummary } from './types';
+
+export type { ListingSummary } from './types';
 
 export type SearchInput = {
   destination?: string;
