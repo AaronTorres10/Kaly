@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import Colors from '../../constants/Colors';
-import type { ListingSummary } from '../../lib/listings/listPublished';
+import type { ListingSummary } from '../../lib/listings/types';
 
 type ListingCardProps = {
   listing: ListingSummary;

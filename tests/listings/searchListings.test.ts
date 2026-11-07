@@ -77,6 +77,16 @@ describe('searchListings', () => {
     expect(query.lt).toHaveBeenCalledWith('listing_availability.date', '2027-05-12');
   });
 
+  it('ordena primero por los alojamientos más nuevos y después por identificador', async () => {
+    query.then = vi.fn((resolve) => resolve({ data: [], error: null }));
+
+    const { searchListings } = await import('../../lib/listings/searchListings');
+    await searchListings({});
+
+    expect(query.order).toHaveBeenNthCalledWith(1, 'created_at', { ascending: false });
+    expect(query.order).toHaveBeenNthCalledWith(2, 'id', { ascending: true });
+  });
+
   it('no aplica filtros accidentales a una entrada vacía y devuelve cero resultados', async () => {
     query.then = vi.fn((resolve) => resolve({ data: [], error: null }));
 
