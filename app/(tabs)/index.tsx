@@ -1,17 +1,22 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { ListingCard } from '@/components/listings/ListingCard';
-import { listPublishedListings, type ListingSummary } from '@/lib/listings/listPublished';
+import { FiltersSheet, type SearchFilters } from '@/components/search/FiltersSheet';
+import { SearchBar } from '@/components/search/SearchBar';
+import { searchListings, type SearchInput } from '@/lib/listings/searchListings';
+import type { ListingSummary } from '@/lib/listings/listPublished';
 import { useRouter } from 'expo-router';
 
 function ExploreStatus({
   kind,
   onRetry,
+  searched = false,
 }: {
   kind: 'loading' | 'error' | 'empty';
   onRetry?: () => void;
+  searched?: boolean;
 }) {
   if (kind === 'loading') {
     return <View accessibilityLabel="Cargando alojamientos" style={styles.status}><ActivityIndicator color={Colors.light.primary} /><Text style={styles.statusText}>Buscando alojamientos...</Text></View>;
@@ -31,8 +36,8 @@ function ExploreStatus({
 
   return (
     <View style={styles.status}>
-      <Text style={styles.statusTitle}>Aún no hay alojamientos</Text>
-      <Text style={styles.statusText}>Prueba de nuevo más tarde para descubrir nuevos lugares.</Text>
+      <Text style={styles.statusTitle}>{searched ? 'No encontramos alojamientos' : 'Aún no hay alojamientos'}</Text>
+      <Text style={styles.statusText}>{searched ? 'Prueba con otro destino o limpia algunos filtros.' : 'Prueba de nuevo más tarde para descubrir nuevos lugares.'}</Text>
     </View>
   );
 }
@@ -42,12 +47,16 @@ export default function ExploreScreen() {
   const [listings, setListings] = useState<ListingSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [destination, setDestination] = useState('');
+  const [filters, setFilters] = useState<SearchFilters>({});
+  const [appliedSearch, setAppliedSearch] = useState<SearchInput>({});
+  const [filtersVisible, setFiltersVisible] = useState(false);
 
-  const loadListings = useCallback(async () => {
+  const loadListings = useCallback(async (input: SearchInput = {}) => {
     setLoading(true);
     setError(false);
     try {
-      setListings(await listPublishedListings({}));
+      setListings(await searchListings(input));
     } catch {
       setError(true);
     } finally {
@@ -59,6 +68,45 @@ export default function ExploreScreen() {
     void loadListings();
   }, [loadListings]);
 
+  const submitSearch = useCallback((nextFilters: SearchFilters = filters) => {
+    const nextSearch: SearchInput = {
+      ...nextFilters,
+      destination: destination.trim() || undefined,
+    };
+    setFilters(nextFilters);
+    setAppliedSearch(nextSearch);
+    void loadListings(nextSearch);
+  }, [destination, filters, loadListings]);
+
+  const clearFilters = useCallback(() => {
+    setDestination('');
+    setFilters({});
+    setAppliedSearch({});
+    setFiltersVisible(false);
+    void loadListings({});
+  }, [loadListings]);
+
+  const activeFilterCount = useMemo(() => {
+    return [
+      filters.checkIn && filters.checkOut,
+      filters.guests !== undefined,
+      filters.minPrice !== undefined,
+      filters.maxPrice !== undefined,
+    ].filter(Boolean).length + (filters.amenities?.length ?? 0);
+  }, [filters]);
+
+  const chips = useMemo(() => {
+    const values: string[] = [];
+    if (appliedSearch.destination) values.push(`Destino: ${appliedSearch.destination}`);
+    if (appliedSearch.checkIn && appliedSearch.checkOut) values.push(`${appliedSearch.checkIn} → ${appliedSearch.checkOut}`);
+    if (appliedSearch.guests) values.push(`${appliedSearch.guests} huéspedes`);
+    if (appliedSearch.minPrice !== undefined || appliedSearch.maxPrice !== undefined) {
+      values.push(`$${appliedSearch.minPrice ?? 0}–$${appliedSearch.maxPrice ?? '∞'}`);
+    }
+    if (appliedSearch.amenities?.length) values.push(appliedSearch.amenities.join(' · '));
+    return values;
+  }, [appliedSearch]);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
@@ -66,13 +114,22 @@ export default function ExploreScreen() {
         <Text style={styles.title}>Encuentra tu próximo lugar</Text>
         <Text style={styles.subtitle}>Alojamientos seleccionados para tu siguiente escapada.</Text>
 
-        <View style={styles.searchHint}>
-          <Text style={styles.searchIcon}>⌕</Text>
-          <View>
-            <Text style={styles.searchLabel}>¿A dónde vas?</Text>
-            <Text style={styles.searchValue}>Explora destinos únicos</Text>
+        <SearchBar
+          activeFilterCount={activeFilterCount}
+          onChangeText={setDestination}
+          onOpenFilters={() => setFiltersVisible(true)}
+          onSubmit={() => submitSearch()}
+          value={destination}
+        />
+
+        {chips.length > 0 ? (
+          <View accessibilityLabel="Filtros activos" style={styles.chips}>
+            {chips.map((chip) => <View key={chip} style={styles.chip}><Text style={styles.chipText}>{chip}</Text></View>)}
+            <Pressable accessibilityRole="button" onPress={clearFilters} style={styles.clearSearchButton}>
+              <Text style={styles.clearSearchText}>Limpiar</Text>
+            </Pressable>
           </View>
-        </View>
+        ) : null}
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Alojamientos publicados</Text>
@@ -80,8 +137,8 @@ export default function ExploreScreen() {
         </View>
 
         {loading ? <ExploreStatus kind="loading" /> : null}
-        {!loading && error ? <ExploreStatus kind="error" onRetry={() => void loadListings()} /> : null}
-        {!loading && !error && listings.length === 0 ? <ExploreStatus kind="empty" /> : null}
+        {!loading && error ? <ExploreStatus kind="error" onRetry={() => void loadListings(appliedSearch)} /> : null}
+        {!loading && !error && listings.length === 0 ? <ExploreStatus kind="empty" searched={Object.keys(appliedSearch).length > 0} /> : null}
         {!loading && !error ? listings.map((listing) => (
           <ListingCard
             key={listing.id}
@@ -90,6 +147,16 @@ export default function ExploreScreen() {
           />
         )) : null}
       </ScrollView>
+      <FiltersSheet
+        initialFilters={filters}
+        onApply={(nextFilters) => {
+          setFiltersVisible(false);
+          submitSearch(nextFilters);
+        }}
+        onClear={clearFilters}
+        onClose={() => setFiltersVisible(false)}
+        visible={filtersVisible}
+      />
     </SafeAreaView>
   );
 }
@@ -100,10 +167,11 @@ const styles = StyleSheet.create({
   eyebrow: { color: Colors.light.accent, fontSize: 11, fontWeight: '700', letterSpacing: 1.5 },
   title: { color: Colors.light.text, fontSize: 29, fontWeight: '800', lineHeight: 35, marginTop: 8 },
   subtitle: { color: Colors.light.muted, fontSize: 14, lineHeight: 21, marginTop: 8 },
-  searchHint: { alignItems: 'center', backgroundColor: Colors.light.surface, borderRadius: 18, elevation: 2, flexDirection: 'row', marginBottom: 30, marginTop: 22, padding: 17, shadowColor: Colors.light.primary, shadowOpacity: 0.08, shadowRadius: 16 },
-  searchIcon: { color: Colors.light.accent, fontSize: 30, lineHeight: 31, marginRight: 13 },
-  searchLabel: { color: Colors.light.text, fontSize: 15, fontWeight: '700' },
-  searchValue: { color: Colors.light.muted, fontSize: 12, marginTop: 4 },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: 26, marginTop: 9 },
+  chip: { backgroundColor: Colors.light.soft, borderRadius: 14, paddingHorizontal: 10, paddingVertical: 7 },
+  chipText: { color: Colors.light.primary, fontSize: 11, fontWeight: '700' },
+  clearSearchButton: { justifyContent: 'center', paddingHorizontal: 5 },
+  clearSearchText: { color: Colors.light.accent, fontSize: 11, fontWeight: '800' },
   sectionHeader: { alignItems: 'baseline', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 14 },
   sectionTitle: { color: Colors.light.text, fontSize: 19, fontWeight: '800' },
   resultCount: { color: Colors.light.muted, fontSize: 12 },
