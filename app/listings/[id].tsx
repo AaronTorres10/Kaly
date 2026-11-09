@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@/constants/Colors';
 import { ListingDetail } from '@/components/listings/ListingDetail';
 import { ListingGallery } from '@/components/listings/ListingGallery';
+import { ListingMap } from '@/components/listings/ListingMap';
 import { getListingDetail, type ListingDetail as ListingDetailData } from '@/lib/listings/getListingDetail';
 
 export default function ListingDetailScreen() {
@@ -61,6 +62,9 @@ export default function ListingDetailScreen() {
         <ScrollView showsVerticalScrollIndicator={false}>
           <ListingGallery images={listing.images} />
           <ListingDetail listing={listing} onChooseDates={() => {}} />
+          <View style={styles.mapSection}>
+            <ListingMap latitude={listing.latitude} longitude={listing.longitude} label={listing.location} />
+          </View>
         </ScrollView>
       ) : null}
     </SafeAreaView>
@@ -78,4 +82,5 @@ const styles = StyleSheet.create({
   stateText: { color: Colors.light.muted, fontSize: 15, lineHeight: 22, marginTop: 10, textAlign: 'center' },
   retryButton: { backgroundColor: Colors.light.primary, borderRadius: 12, marginTop: 18, paddingHorizontal: 20, paddingVertical: 12 },
   retryText: { color: Colors.light.surface, fontSize: 14, fontWeight: '800' },
+  mapSection: { paddingHorizontal: 22, paddingBottom: 30 },
 });

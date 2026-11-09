@@ -186,10 +186,10 @@
 **Interfaces:**
 - `ListingMap({ latitude: number; longitude: number; label: string }): JSX.Element`.
 
-- [ ] Consultar la documentación de Expo SDK 57 del proveedor de mapas elegido y probar coordenadas válidas y ausentes.
-- [ ] Implementar marcador y región sin mostrar la dirección privada exacta del anfitrión.
-- [ ] Mostrar fallback accesible cuando mapas no estén disponibles o la coordenada sea inválida.
-- [ ] Ejecutar `npm test -- tests/listings/ListingMap.test.tsx` y comprobar Android/iOS/web según soporte del proveedor.
+- [x] Consultar la documentación de Expo SDK 57 del proveedor de mapas elegido y probar coordenadas válidas y ausentes.
+- [x] Implementar marcador y región sin mostrar la dirección privada exacta del anfitrión.
+- [x] Mostrar fallback accesible cuando mapas no estén disponibles o la coordenada sea inválida.
+- [x] Ejecutar `npm test -- tests/listings/ListingMap.test.tsx` y comprobar Android/iOS/web según soporte del proveedor.
 
 ### Task 11: Calendario de disponibilidad
 
