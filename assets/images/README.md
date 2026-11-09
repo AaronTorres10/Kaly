@@ -10,3 +10,7 @@ fotografías genéricas, no a anuncios reales.
 | Casa Brisa, posición 1 | `https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=80` | Hutomo Abrianto | Unsplash License — Foto de Hutomo Abrianto en Unsplash |
 
 Fuente del autor: [perfil de Hutomo Abrianto en Unsplash](https://unsplash.com/@hutomoabrianto).
+
+La galería consume estas URLs y conserva la posición, licencia y atribución
+registradas para cada foto; no se incorporan imágenes de anuncios reales al
+repositorio.

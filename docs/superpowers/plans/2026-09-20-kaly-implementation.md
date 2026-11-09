@@ -158,10 +158,10 @@
 **Interfaces:**
 - `getListingDetail(id: string): Promise<ListingDetail>`; devuelve alojamiento, servicios, capacidad, precio, imágenes, coordenadas y disponibilidad resumida.
 
-- [ ] Probar ID inexistente, alojamiento no publicado y detalle válido con datos completos.
-- [ ] Crear la ruta dinámica y consultar solo el alojamiento solicitado, mostrando navegación atrás, carga y error.
-- [ ] Renderizar descripción, precio por noche, capacidad, servicios y CTA para elegir fechas.
-- [ ] Ejecutar `npm test -- tests/listings/getListingDetail.test.ts` y probar el acceso desde resultados filtrados.
+- [x] Probar ID inexistente, alojamiento no publicado y detalle válido con datos completos.
+- [x] Crear la ruta dinámica y consultar solo el alojamiento solicitado, mostrando navegación atrás, carga y error.
+- [x] Renderizar descripción, precio por noche, capacidad, servicios y CTA para elegir fechas.
+- [x] Ejecutar `npm test -- tests/listings/getListingDetail.test.ts` y probar el acceso desde resultados filtrados.
 
 ### Task 9: Galería de fotos
 
@@ -172,10 +172,10 @@
 **Interfaces:**
 - `ListingGallery({ images: ListingImage[] }): JSX.Element`; respeta `position` y acepta lista vacía.
 
-- [ ] Probar orden, imagen única, lista vacía, fallo de carga y apertura de una imagen a pantalla completa.
-- [ ] Implementar carrusel con contador, placeholder neutral y `accessibilityLabel` descriptivo.
-- [ ] Mantener atribución y licencia de cada foto en el registro de assets, sin usar imágenes de listados reales.
-- [ ] Ejecutar `npm test -- tests/listings/ListingGallery.test.tsx` y revisar tamaños pequeños y grandes.
+- [x] Probar orden, imagen única, lista vacía, fallo de carga y apertura de una imagen a pantalla completa.
+- [x] Implementar carrusel con contador, placeholder neutral y `accessibilityLabel` descriptivo.
+- [x] Mantener atribución y licencia de cada foto en el registro de assets, sin usar imágenes de listados reales.
+- [x] Ejecutar `npm test -- tests/listings/ListingGallery.test.tsx` y revisar tamaños pequeños y grandes.
 
 ### Task 10: Mapa del alojamiento
 
