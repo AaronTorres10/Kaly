@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,12 +7,16 @@ import Colors from '@/constants/Colors';
 import { ListingDetail } from '@/components/listings/ListingDetail';
 import { ListingGallery } from '@/components/listings/ListingGallery';
 import { ListingMap } from '@/components/listings/ListingMap';
+import { AvailabilityCalendar } from '@/components/booking/AvailabilityCalendar';
+import { getInitialAvailabilityMonth } from '@/components/booking/availabilityModel';
 import { getListingDetail, type ListingDetail as ListingDetailData } from '@/lib/listings/getListingDetail';
 
 export default function ListingDetailScreen() {
   const router = useRouter();
+  const scrollRef = useRef<ScrollView>(null);
   const { id } = useLocalSearchParams<{ id?: string }>();
   const [listing, setListing] = useState<ListingDetailData | null>(null);
+  const [calendarY, setCalendarY] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -59,9 +63,19 @@ export default function ListingDetailScreen() {
           </Pressable>
         </View>
       ) : listing ? (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
           <ListingGallery images={listing.images} />
-          <ListingDetail listing={listing} onChooseDates={() => {}} />
+          <ListingDetail listing={listing} />
+          <View onLayout={(event) => setCalendarY(event.nativeEvent.layout.y)}>
+            <AvailabilityCalendar
+              capacity={listing.capacity}
+              initialMonth={getInitialAvailabilityMonth(listing.availability.availableDates, new Date().toISOString().slice(0, 7))}
+              listingId={listing.id}
+              onChooseDates={() => scrollRef.current?.scrollTo({ animated: true, y: calendarY })}
+              onChange={() => {}}
+              pricePerNight={listing.pricePerNight}
+            />
+          </View>
           <View style={styles.mapSection}>
             <ListingMap latitude={listing.latitude} longitude={listing.longitude} label={listing.location} />
           </View>
