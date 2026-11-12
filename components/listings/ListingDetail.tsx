@@ -1,16 +1,15 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import type { ListingDetail as ListingDetailData } from '../../lib/listings/getListingDetail';
 
 type ListingDetailProps = {
   listing: ListingDetailData;
-  onChooseDates: () => void;
 };
 
 const priceFormatter = new Intl.NumberFormat('es-MX', { maximumFractionDigits: 0 });
 
-export function ListingDetail({ listing, onChooseDates }: ListingDetailProps) {
+export function ListingDetail({ listing }: ListingDetailProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{listing.title}</Text>
@@ -31,9 +30,6 @@ export function ListingDetail({ listing, onChooseDates }: ListingDetailProps) {
         </View>
       ) : <Text style={styles.muted}>El anfitrión aún no ha indicado servicios.</Text>}
 
-      <Pressable accessibilityRole="button" onPress={onChooseDates} style={styles.cta}>
-        <Text style={styles.ctaText}>Elegir fechas</Text>
-      </Pressable>
     </View>
   );
 }
@@ -51,6 +47,4 @@ const styles = StyleSheet.create({
   amenities: { gap: 8, marginTop: 10 },
   amenity: { color: Colors.light.text, fontSize: 15 },
   muted: { color: Colors.light.muted, fontSize: 15, marginTop: 10 },
-  cta: { alignItems: 'center', backgroundColor: Colors.light.primary, borderRadius: 14, marginTop: 32, padding: 16 },
-  ctaText: { color: Colors.light.surface, fontSize: 16, fontWeight: '800' },
 });

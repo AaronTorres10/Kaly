@@ -201,10 +201,10 @@
 - `getAvailability(listingId: string, month: string): Promise<AvailabilityDay[]>`
 - `AvailabilityCalendar` devuelve `{ checkIn?: string; checkOut?: string }` mediante `onChange`.
 
-- [ ] Probar fechas bloqueadas, selección de entrada/salida, rango invertido, cambio de mes y rango que cruza meses.
-- [ ] Consultar `listing_availability` y marcar solo días habilitados, sin confiar en estilos del cliente para reservar.
-- [ ] Integrar calendario con huéspedes y resumen, deshabilitando el CTA hasta tener un rango válido.
-- [ ] Ejecutar `npm test -- tests/booking/AvailabilityCalendar.test.tsx` y verificar el estado de carga/error.
+- [x] Probar fechas bloqueadas, selección de entrada/salida, rango invertido, cambio de mes y rango que cruza meses.
+- [x] Consultar `listing_availability` y marcar solo días habilitados, sin confiar en estilos del cliente para reservar.
+- [x] Integrar calendario con huéspedes y resumen, deshabilitando el CTA hasta tener un rango válido.
+- [x] Ejecutar `npm test -- tests/booking/AvailabilityCalendar.test.tsx` y verificar el estado de carga/error.
 
 ### Task 12: Pestaña del anfitrión
 
