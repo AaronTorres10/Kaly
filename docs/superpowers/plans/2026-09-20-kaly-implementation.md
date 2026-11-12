@@ -228,10 +228,10 @@
 **Interfaces:**
 - `saveListing(input: ListingFormInput): Promise<{ id: string }>`; valida título, ubicación, precio entero positivo, capacidad y servicios antes de insertar/actualizar.
 
-- [ ] Probar campos obligatorios, precio/capacidad inválidos, crear y editar solo una publicación propia.
-- [ ] Implementar formulario con estado de edición, validación visible y control explícito de `is_published`.
-- [ ] Guardar mediante Supabase y volver a la pestaña del anfitrión con confirmación; no permitir que un usuario cambie `host_id`.
-- [ ] Ejecutar `npm test -- tests/host/ListingForm.test.tsx` y probar pérdida de red sin perder los valores escritos.
+- [x] Probar campos obligatorios, precio/capacidad inválidos, crear y editar solo una publicación propia.
+- [x] Implementar formulario con estado de edición, validación visible y control explícito de `is_published`.
+- [x] Guardar mediante Supabase y volver a la pestaña del anfitrión con confirmación; no permitir que un usuario cambie `host_id`.
+- [x] Ejecutar `npm test -- tests/host/ListingForm.test.tsx` y probar pérdida de red sin perder los valores escritos.
 
 ### Task 14: Subida de fotos
 
