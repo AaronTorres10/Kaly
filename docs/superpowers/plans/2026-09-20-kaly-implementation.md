@@ -215,10 +215,10 @@
 **Interfaces:**
 - `listMyListings(): Promise<HostListingSummary[]>`; solo devuelve alojamientos cuyo `host_id` es la sesión actual.
 
-- [ ] Probar anfitrión sin publicaciones, anfitrión con publicaciones y usuario sin sesión.
-- [ ] Implementar la pestaña con CTA de crear, lista de publicaciones y estados de carga/error/vacío.
-- [ ] Añadir navegación a formulario, fotos y reservas recibidas sin mezclar datos de otros anfitriones.
-- [ ] Ejecutar `npm test -- tests/host/HostTab.test.tsx` y revisar la navegación de las cuatro pestañas.
+- [x] Probar anfitrión sin publicaciones, anfitrión con publicaciones y usuario sin sesión.
+- [x] Implementar la pestaña con CTA de crear, lista de publicaciones y estados de carga/error/vacío.
+- [x] Añadir navegación a formulario, fotos y reservas recibidas sin mezclar datos de otros anfitriones.
+- [x] Ejecutar `npm test -- tests/host/HostTab.test.tsx` y revisar la navegación de las cuatro pestañas.
 
 ### Task 13: Formulario para publicar
 
