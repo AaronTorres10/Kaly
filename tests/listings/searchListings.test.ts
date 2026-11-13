@@ -14,6 +14,7 @@ const query = vi.hoisted(() => ({
 
 const supabase = vi.hoisted(() => ({
   from: vi.fn(() => query),
+  storage: { from: vi.fn(() => ({ getPublicUrl: vi.fn((path: string) => ({ data: { publicUrl: `https://cdn.example/${path}` } })) })) },
 }));
 
 vi.mock('../../lib/supabase', () => ({ supabase }));
@@ -85,6 +86,16 @@ describe('searchListings', () => {
 
     expect(query.order).toHaveBeenNthCalledWith(1, 'created_at', { ascending: false });
     expect(query.order).toHaveBeenNthCalledWith(2, 'id', { ascending: true });
+  });
+
+  it('usa la URL pública de Storage cuando la foto no tiene source_url', async () => {
+    query.then = vi.fn((resolve) => resolve({
+      data: [{ id: 'listing-1', title: 'Casa', location: 'Puebla', price_per_night: 1800, capacity: 2, listing_images: [{ position: 0, source_url: null, storage_path: 'listing-1/photo.jpg' }], listing_availability: [] }],
+      error: null,
+    }));
+
+    const { searchListings } = await import('../../lib/listings/searchListings');
+    await expect(searchListings({})).resolves.toMatchObject([{ coverImageUrl: 'https://cdn.example/listing-1/photo.jpg' }]);
   });
 
   it('no aplica filtros accidentales a una entrada vacía y devuelve cero resultados', async () => {

@@ -16,6 +16,7 @@ export type SearchInput = {
 type SearchListingImage = {
   position: number;
   source_url: string | null;
+  storage_path: string | null;
 };
 
 type SearchAvailability = {
@@ -74,10 +75,17 @@ function escapeLikePattern(value: string): string {
   return value.replace(/[\\%_]/g, '\\$&');
 }
 
+function getImageUrl(image: SearchListingImage): string | null {
+  if (image.source_url) return image.source_url;
+  if (!image.storage_path) return null;
+  return supabase.storage.from('listening-images').getPublicUrl(image.storage_path).data.publicUrl;
+}
+
 function getCoverImage(images: SearchListingImage[] | null): string | null {
-  return [...(images ?? [])]
-    .filter((image) => image.source_url)
-    .sort((first, second) => first.position - second.position)[0]?.source_url ?? null;
+  const firstImage = [...(images ?? [])]
+    .filter((image) => image.source_url || image.storage_path)
+    .sort((first, second) => first.position - second.position)[0];
+  return firstImage ? getImageUrl(firstImage) : null;
 }
 
 export async function searchListings(input: SearchInput = {}): Promise<ListingSummary[]> {
@@ -115,7 +123,7 @@ export async function searchListings(input: SearchInput = {}): Promise<ListingSu
     : 'listing_availability(date, is_available)';
   let request = supabase
     .from('listings')
-    .select(`id, title, location, price_per_night, capacity, listing_images(source_url, position), ${availabilitySelection}`)
+    .select(`id, title, location, price_per_night, capacity, listing_images(source_url, storage_path, position), ${availabilitySelection}`)
     .eq('is_published', true)
     .order('created_at', { ascending: false })
     .order('id', { ascending: true });

@@ -4,6 +4,7 @@ import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View } from 'rea
 
 import Colors from '../../../../constants/Colors';
 import { ListingForm, type ListingFormInput } from '../../../../components/host/ListingForm';
+import { ListingPhotoManager } from '../../../../components/host/ListingPhotoManager';
 import { saveListing } from '../../../../lib/host/saveListing';
 import { supabase } from '../../../../lib/supabase';
 
@@ -30,12 +31,13 @@ export default function EditListingScreen() {
   }, [id]);
 
   if (error) return <View style={styles.center}><Text style={styles.error}>{error}</Text></View>;
-  if (!listing) return <View style={styles.center}><ActivityIndicator color={Colors.light.primary} /><Text style={styles.loading}>Cargando publicación…</Text></View>;
+  if (!listing || !listing.id) return <View style={styles.center}><ActivityIndicator color={Colors.light.primary} /><Text style={styles.loading}>Cargando publicación…</Text></View>;
 
   return (
     <View style={styles.screen}>
       <View style={styles.header}><Pressable accessibilityRole="button" accessibilityLabel="Volver" onPress={() => router.back()}><Text style={styles.back}>‹</Text></Pressable><Text style={styles.title}>Editar publicación</Text><View style={styles.spacer} /></View>
       <ListingForm initialValues={listing} submitLabel="Guardar cambios" onSubmit={async (input) => { await saveListing({ ...input, id: listing.id }); Alert.alert('Cambios guardados'); router.replace('/host'); }} />
+      <ListingPhotoManager listingId={listing.id} />
     </View>
   );
 }

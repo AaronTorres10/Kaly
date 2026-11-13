@@ -85,7 +85,7 @@ export async function getListingDetail(id: string): Promise<ListingDetail> {
       .map((image) => ({
         id: image.id,
         position: image.position,
-        sourceUrl: image.source_url,
+        sourceUrl: image.source_url ?? (image.storage_path ? supabase.storage.from('listening-images').getPublicUrl(image.storage_path).data.publicUrl : null),
         storagePath: image.storage_path,
         license: image.license,
         attribution: image.attribution,

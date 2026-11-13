@@ -243,10 +243,10 @@
 - `uploadListingImage(listingId: string, asset: ImageAsset): Promise<ListingImage>`; guarda en Storage y registra orden, URL y licencia.
 - `deleteListingImage(listingId: string, imageId: string): Promise<void>`.
 
-- [ ] Probar MIME/tamaño inválido, subida fallida, eliminación, reordenamiento y publicación sin fotos.
-- [ ] Crear bucket privado/público según el acceso del detalle y políticas Storage restringidas al anfitrión del alojamiento.
-- [ ] Implementar selección, vista previa, progreso, reordenamiento y borrado, solicitando solo permisos necesarios.
-- [ ] Registrar únicamente fotos de Unsplash/Pexels con atribución; ejecutar `npm test -- tests/host/uploadListingImage.test.ts`.
+- [x] Probar MIME/tamaño inválido, subida fallida, eliminación, reordenamiento y publicación sin fotos.
+- [x] Crear bucket privado/público según el acceso del detalle y políticas Storage restringidas al anfitrión del alojamiento.
+- [x] Implementar selección, vista previa, progreso, reordenamiento y borrado, solicitando solo permisos necesarios.
+- [x] Registrar fotos propias del anfitrión sin exigir Unsplash/Pexels ni atribución; ejecutar `npm test -- tests/host/uploadListingImage.test.ts`.
 
 ### Task 15: Reservas recibidas
 

@@ -8,6 +8,7 @@ const query = vi.hoisted(() => ({
 
 const supabase = vi.hoisted(() => ({
   from: vi.fn(() => query),
+  storage: { from: vi.fn(() => ({ getPublicUrl: vi.fn((path: string) => ({ data: { publicUrl: `https://cdn.example/${path}` } })) })) },
 }));
 
 vi.mock('../../lib/supabase', () => ({ supabase }));
@@ -76,5 +77,21 @@ describe('getListingDetail', () => {
     const { getListingDetail } = await import('../../lib/listings/getListingDetail');
 
     await expect(getListingDetail('listing-1')).rejects.toThrow('Network error');
+  });
+
+  it('convierte el storage_path de una foto propia en URL pública', async () => {
+    query.maybeSingle.mockResolvedValue({
+      data: {
+        id: 'listing-1', title: 'Casa', location: 'Puebla', description: '', amenities: [], capacity: 2,
+        price_per_night: 1800, latitude: null, longitude: null,
+        listing_images: [{ id: 'image-1', position: 0, source_url: null, storage_path: 'listing-1/photo.jpg', license: null, attribution: null }],
+        listing_availability: [],
+      },
+      error: null,
+    });
+    const { getListingDetail } = await import('../../lib/listings/getListingDetail');
+    await expect(getListingDetail('listing-1')).resolves.toMatchObject({
+      images: [{ sourceUrl: 'https://cdn.example/listing-1/photo.jpg', storagePath: 'listing-1/photo.jpg' }],
+    });
   });
 });
